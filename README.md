@@ -74,4 +74,4 @@ _Most common error_: "Invalid Key Size" error is most likely caused by not updat
 
 [Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
 
-Copywrite &copy;2013 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
+Copywrite &copy;2017 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
