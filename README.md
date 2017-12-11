@@ -7,8 +7,8 @@ This is a sample utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
 _Most common error_: "Invalid Key Size" error is most likely caused by not updating JCE strength policy, see above
 
 # Android integration frameworks
-AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
-Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
+## AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
+## Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
 
 **NOTE:** This example is built using **JDK7**, ultimate strength JCE (JDK7) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
 
