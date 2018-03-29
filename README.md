@@ -1,13 +1,19 @@
 [Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
 
-Overview:
+# Overview:
 ===================
 This is a sample utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
 
 - Most common error_: "Invalid Key Size" error is most likely caused by not updating JCE strength policy, see above
 - https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
 
+<<<<<<< HEAD
 **NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
+=======
+# Android integration frameworks (See https://www.whatsapp.com/security/WhatsApp-Security-Whitepaper.pdf )
+## AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
+## Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
+>>>>>>> origin/master
 
 - Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8 Download
 http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
@@ -82,4 +88,4 @@ keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -ke
 
 [Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
 
-Copywrite &copy;2013 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
+Copywrite &copy;2017 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
