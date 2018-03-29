@@ -20,6 +20,12 @@ public class CryptoHelper {
 
     private static final Logger LOG = LoggerFactory.getLogger(CryptoHelper.class);
 
+
+    public CryptoHelper() {
+        System.out.println("Constructor called");
+
+    }
+
     public String encryptMessage(String key, String message) throws UnsupportedEncodingException {
 
         AESCipher cipher = new AESCipher(key.getBytes("UTF-8"));
@@ -45,7 +51,7 @@ public class CryptoHelper {
     public void createSystemProperties() {
 
         String root = System.getProperty("user.dir");
-        String filepath = "/src/test/resources/aes-keystore.jck"; // in case of Windows: "\\path \\to\\yourfile.txt
+        String filepath = "/src/test/resources/client-aes-keystore.jck"; // in case of Windows: "\\path \\to\\yourfile.txt
         String keystoreFileLocation = root+filepath;
         System.setProperty("keystore",keystoreFileLocation);
         System.setProperty("storepass","mystorepass");
@@ -178,7 +184,7 @@ public class CryptoHelper {
     // "firstName": "John"                ; Maps to firstName from social login token extracted from social server @ runtime
     // "lastName" : "Doe"                 ; Maps to firstName from social login token extracted from social server @ runtime
     // "admin": true / false             ; False for all regular login customers @ runtime
-    public static String CreateJWT(String key, String userId, String duration, String iss, String sub, String aud, String jti, String firstName, String lastName, String admin) throws Exception {
+    public String CreateJWT(String key, String userId, String duration, String iss, String sub, String aud, String jti, String firstName, String lastName, String admin) throws Exception {
        try {
 
             AuthHelper a = new AuthHelper(key);

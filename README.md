@@ -4,14 +4,16 @@ Overview:
 ===================
 This is a sample utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
 
-_Most common error_: "Invalid Key Size" error is most likely caused by not updating JCE strength policy, see above
+- Most common error_: "Invalid Key Size" error is most likely caused by not updating JCE strength policy, see above
+- https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
 
+**NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
 
-**NOTE:** This example is built using **JDK7**, ultimate strength JCE (JDK7) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
+- Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8 Download
+http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
+- JDK must have the unlimited strength policy for the JDK version
 
- - [Unlimited Strength Policy JDK7](http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html "Unlimited Strength Policy for JDK7")
- - JDK must have the unlimited strength policy for the JDK version
-
+Extract the jar files from the zip and save them in ${java.home}/jre/lib/security/.
 
 <a name="run"></a>To Run:
 ====================
@@ -42,8 +44,14 @@ _Most common error_: "Invalid Key Size" error is most likely caused by not updat
 <a name="generate"></a>Generate an AES-256 Key
 ======================
 
-    keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -keypass mykeypass -storetype jceks -keystore aes-keystore.jck -storepass mystorepass
+keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -keypass mykeypass -storetype jceks -keystore aes-keystore.jck -storepass mystorepass
 
+
+
+
+# Android key generation example
+# https://developer.android.com/studio/publish/app-signing.html#signing-manually
+# keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
 
 [Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
 

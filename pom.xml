@@ -1,25 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.acquitygroup.encryption</groupId>
-    <artifactId>example-encryption</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <name>${project.artifactId}</name>
-    <description>Sample Encryption</description>
-    <url>http://www.acquitygroup.com/</url>
 
-    <parent>
+    <groupId>com.acquitygroup.encryption</groupId>
+    <artifactId>encryption-starter</artifactId>
+    <version>0.1.0</version>
+
+ <!--   <name>${project.artifactId}</name>
+    <description>Sample Encryption</description>
+    <url>http://www.acquitygroup.com/</url> -->
+
+   <!-- <parent>
         <groupId>com.clickconcepts.project</groupId>
         <artifactId>master-site-pom</artifactId>
         <version>0.19</version>
+    </parent> -->
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.0.0.RELEASE</version>
     </parent>
 
-    <organization>
+    <properties>
+        <!-- The main class to start by executing java -jar -->
+        <start-class>com.acquitygroup.encryption.MainApp</start-class>
+    </properties>
+
+
+  <!--  <organization>
         <name>Acquity Group</name>
         <url>http://www.acquitygroup.com</url>
-    </organization>
+    </organization> -->
 
-    <developers>
+ <!--   <developers>
         <developer>
             <id>Mike!</id>
             <name>Mike Ensor</name>
@@ -31,28 +45,47 @@
             </roles>
             <timezone>-7</timezone>
         </developer>
-    </developers>
+    </developers> -->
 
-    <properties>
+  <!--  <properties>
         <repository.name>${project.artifactId}</repository.name>
-        <!-- Parameters for Site Docs -->
+
         <scmUrl>${project.scm.url}</scmUrl>
         <gitUrl>git@${repository.domain}:${repository.user}/${repository.name}.git</gitUrl>
-        <!-- Used for Google Search on Site Documentation page -->
+
         <sitesearchValue>${repository.user}.${repository.domain}</sitesearchValue>
 
-        <!-- Override Site Documentation SCM publishing parameters  -->
+
         <scm-publish.scmBranch>ghpages</scm-publish.scmBranch>
         <scm-publish.pubScmUrl>scm:git:git@github.com:mike-ensor/${project.artifactId}.git</scm-publish.pubScmUrl>
 
-        <!-- Location of where "site" documentation is output -->
+
         <siteOutputDirectory>${project.build.directory}/site/${project.artifactId}</siteOutputDirectory>
 
         <changelog.fileUri>${changelog.github.fileUri}</changelog.fileUri>
         <changelog.revision.fileUri>${changelog.revision.github.fileUri}</changelog.revision.fileUri>
-    </properties>
+    </properties> -->
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- START main dependencies -->
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -60,12 +93,33 @@
             <version>15.0</version>
         </dependency>
         <!-- END Main Dependencies -->
-        <dependency>
+
+      <!--  <dependency>
             <groupId>com.clickconcepts.logging</groupId>
             <artifactId>clickconcepts-logging</artifactId>
             <version>0.01</version>
             <type>pom</type>
+        </dependency> -->
+
+
+        <!-- SLF4J Logback Interface -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.12</version>
         </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -104,7 +158,17 @@
         </dependency>
 
     </dependencies>
+
     <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- <build>
         <plugins>
             <plugin>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -145,22 +209,22 @@
                 <configuration>
                     <mainClass>com.acquitygroup.encryption.MainApp</mainClass>
                     <systemProperties>
-                        <!-- Keystore Location -->
+                         Keystore Location
                         <systemProperty>
                             <key>keystore</key>
-                            <value>main-aes-keystore.jck</value>
+                            <value>main-client-aes-keystore.jck</value>
                         </systemProperty>
-                        <!-- storepass -->
+                         storepass
                         <systemProperty>
                             <key>storepass</key>
                             <value>mystorepass</value>
                         </systemProperty>
-                        <!-- alias -->
+                         alias
                         <systemProperty>
                             <key>alias</key>
                             <value>jceksaes</value>
                         </systemProperty>
-                        <!-- keypass -->
+                         keypass
                         <systemProperty>
                             <key>keypass</key>
                             <value>mykeypass</value>
@@ -169,5 +233,6 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build> -->
+
 </project>

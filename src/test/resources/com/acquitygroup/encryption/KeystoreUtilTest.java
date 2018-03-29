@@ -18,7 +18,7 @@ public class KeystoreUtilTest {
     @Test
     public void getKeystoreResource() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
 
         assertThat(key, is(notNullValue()));
     }

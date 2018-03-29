@@ -12,7 +12,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Strings.isNullOrEmpty;
 import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import org.joda.time.DateTime;
@@ -21,17 +20,12 @@ import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.security.spec.RSAPrivateKeySpec;
 
-import java.io.*;
 import java.math.BigInteger;
-import java.security.*;
-import java.security.spec.*;
-import java.security.interfaces.*;
 import javax.crypto.*;
 import javax.crypto.spec.*;
-import javax.crypto.interfaces.*;
-import com.sun.crypto.provider.SunJCE;
-import java.util.Arrays;
 import java.util.UUID;
+
+import org.springframework.web.client.RestTemplate;
 
 public class AESCipherTest {
 
@@ -40,7 +34,7 @@ public class AESCipherTest {
     private static final String ALIAS = "alias";
     private static final String KEYPASS = "keypass";
 
-    private static final Logger LOG = LoggerFactory.getLogger(AESCipherTest.class);
+    private static final Logger log = LoggerFactory.getLogger(AESCipherTest.class);
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -51,11 +45,27 @@ public class AESCipherTest {
     }
 
     private void createSystemProperties() {
-        System.setProperty("keystore","src/test/resources/aes-keystore.jck");
+        System.setProperty("keystore","src/test/resources/client-aes-keystore.jck");
         System.setProperty("storepass","mystorepass");
         System.setProperty("alias","jceksaes");
         System.setProperty("keypass", "mykeypass");
     }
+
+
+
+
+
+    @Test public void RestTemplate() {
+        RestTemplate restTemplate = new RestTemplate();
+
+        Quote quote = restTemplate.getForObject(
+                "http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
+
+        System.out.println(quote.toString());
+
+        log.info(quote.toString());
+    }
+
 
     @Test public void DHTest() {
 
@@ -79,6 +89,8 @@ public class AESCipherTest {
             byte[] bobsecretkey = keyAgree.generateBobSecretKey(alicepublickeyEnc);
 
             keyAgree.compareSecrets(alicesecretkey, bobsecretkey);
+
+            keyAgree.run();
 
             System.out.println("alicekey length: " + alicesecretkey.length);
             System.out.println("bobkey length: " + bobsecretkey.length);
@@ -151,7 +163,7 @@ public class AESCipherTest {
 
             String encryptedMessageJWT = c.encryptMessage(secretkey.substring(0, 32), messageToEncryptJWT);
             String decryptedMessageJWT = c.decryptMessage(secretkey.substring(0, 32), encryptedMessageJWT);
-            LOG.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncryptJWT, encryptedMessageJWT, decryptedMessageJWT);
+            log.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncryptJWT, encryptedMessageJWT, decryptedMessageJWT);
             assertThat(decryptedMessageJWT, is(messageToEncryptJWT));
 
             System.out.println("This is the JWT token verify step:");
@@ -191,7 +203,7 @@ public class AESCipherTest {
 
 
            //ToDo Try to use a 256 bit key with encryptor using Bob or alice secretkey
-           // Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+           // Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
             //AESCipher cipher = new AESCipher(key);
 
             // Generate the secret key specs.
@@ -505,7 +517,7 @@ public class AESCipherTest {
         String JWE = c.createJWE("bob@gmail.com", "1", "facebook", "empty", "Android", "ABC123","Bob", "Smith", "false");
         JWTHelper JWT = c.decryptJWE(JWE);
 
-        LOG.debug("Original JWT token: {}, JWE token: {}", JWT.getJWT(), JWE);
+        log.debug("Original JWT token: {}, JWE token: {}", JWT.getJWT(), JWE);
 
     }
 
@@ -516,12 +528,12 @@ public class AESCipherTest {
         String fbToken2 = new String("CAAUV3RQqq1ABAFSrU7DENfS6BXti2hqvzhiHI2xSAZCCHmWMgemzvTJrpg47GZA6omZAOIYG1HKZAewCAoocA9HowPhmT1PSvP9OoherYq4uZC2dKzLNTkSWMye243QnZCo1TZC0NNfwHqnZAtQBLX0gA4LBI46CrW80fI9SZBTeVh9CNr7sgLCAyEc7oIZAtpRS8GAELEkaqhBNcZBfgYWVVBwuMbIAI1zjZBaU6hAZCRnTUOQZDZD");
 
         assertThat(fbToken1.length(), is(not(fbToken2.length())));
-        LOG.debug("fbToken1.length: " + fbToken1.length() + " fbToken2.length: " + fbToken2.length()); // greater than 200, but less than 300
+        log.debug("fbToken1.length: " + fbToken1.length() + " fbToken2.length: " + fbToken2.length()); // greater than 200, but less than 300
 
         String googleToken1 = new String("ya29.nAEox9z2iCuZHMxWccOLjEWD8rvTS0urlPzZmTMFZSb8P_eMx89FFuoFyXvVO6uaHSpBybxfZxuzIw");
         String googleToken2 = new String("ya29.mwH8z6DRzsc-figgFUXFIKzIlk3OOrsZ9UTRVd5-2pkow7f7Glui2am4sf4DH0zPhEtXGIDjuO5txQ");
 
-        LOG.debug("googleToken1.length: " + googleToken2.length() + " googleToken2.length: " + googleToken2.length()); // greater than 70, but less than 100
+        log.debug("googleToken1.length: " + googleToken2.length() + " googleToken2.length: " + googleToken2.length()); // greater than 70, but less than 100
 
         assertThat(googleToken1.length(), is(googleToken2.length()));
 
@@ -534,7 +546,7 @@ public class AESCipherTest {
         AESCipher cipher = new AESCipher(key.getBytes("UTF-8"));
 
         String encryptedMessage = cipher.getEncryptedMessage("this is message");
-        LOG.debug("Message is: {}", encryptedMessage);
+        log.debug("Message is: {}", encryptedMessage);
 
         assertThat(encryptedMessage, is(notNullValue()));
         assertThat(encryptedMessage, is(not("this is message")));
@@ -553,7 +565,7 @@ public class AESCipherTest {
         String encryptedMessage = cipher.getEncryptedMessage(messageToEncrypt);
         String decryptedMessage = cipher.getDecryptedMessage(encryptedMessage);
 
-        LOG.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
+        log.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
         assertThat(decryptedMessage, is(messageToEncrypt));
     }
 
@@ -567,7 +579,7 @@ public class AESCipherTest {
         AESCipher cipher = new AESCipher(key.getBytes("UTF-8"));
 
         String encryptedMessage = cipher.getEncryptedMessage("this is the secret message I want to encode");
-        LOG.debug("Message is: {}", encryptedMessage);
+        log.debug("Message is: {}", encryptedMessage);
 
         assertThat(encryptedMessage, is(notNullValue()));
         assertThat(encryptedMessage, is(not("this is the secret message I want to encode")));
@@ -585,7 +597,7 @@ public class AESCipherTest {
         String encryptedMessage = cipher.getEncryptedMessage(messageToEncrypt);
         String decryptedMessage = cipher.getDecryptedMessage(encryptedMessage);
 
-        LOG.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
+        log.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
         assertThat(decryptedMessage, is(messageToEncrypt));
     }
 
@@ -599,7 +611,7 @@ public class AESCipherTest {
         //String encryptedMessage = cipher.getEncryptedMessage(messageToEncrypt);
         String decryptedMessage = cipher.getDecryptedMessage(encryptedMessage);
 
-        LOG.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
+        log.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
         assertThat(decryptedMessage, is(messageToEncrypt));
     }
 
@@ -644,12 +656,12 @@ public class AESCipherTest {
     @Test
     public void encryptMessageFromKeystore() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
 
         AESCipher cipher = new AESCipher(key);
 
         String encryptedMessage = cipher.getEncryptedMessage("this is message");
-        LOG.debug("Message is: {}", encryptedMessage);
+        log.debug("Message is: {}", encryptedMessage);
 
         assertThat(encryptedMessage, is(notNullValue()));
         assertThat(encryptedMessage, is(not("this is message")));
@@ -658,7 +670,7 @@ public class AESCipherTest {
     @Test
     public void decryptMessageFromKeystore() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         AESCipher cipher = new AESCipher(key);
 
         try {
@@ -676,20 +688,20 @@ public class AESCipherTest {
         String encryptedMessage = cipher.getEncryptedMessage(messageToEncrypt);
         String decryptedMessage = cipher.getDecryptedMessage(encryptedMessage);
 
-        LOG.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
+        log.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
         assertThat(decryptedMessage, is(messageToEncrypt));
     }
 
     @Test
     public void usingStringBasedIV() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         String iv = "1111111111111111";
 
         AESCipher cipher = new AESCipher(key, iv.getBytes());
 
         String encryptedMessage = cipher.getEncryptedMessage("this is message");
-        LOG.debug("Message is: {}", encryptedMessage);
+        log.debug("Message is: {}", encryptedMessage);
 
         assertThat(encryptedMessage, is(notNullValue()));
         assertThat(encryptedMessage, is(not("this is message")));
@@ -701,13 +713,13 @@ public class AESCipherTest {
         thrown.expectCause(isA(InvalidAlgorithmParameterException.class));
         thrown.expectMessage("Wrong IV length: must be 16 bytes long");
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         String iv = "111111111111111\u4111";
 
         AESCipher cipher = new AESCipher(key, iv.getBytes("UTF-8"));
 
         String encryptedMessage = cipher.getEncryptedMessage("this is message");
-        LOG.debug("Message is: {}", encryptedMessage);
+        log.debug("Message is: {}", encryptedMessage);
 
         assertThat(encryptedMessage, is(notNullValue()));
         assertThat(encryptedMessage, is(not("this is message")));
@@ -719,7 +731,7 @@ public class AESCipherTest {
         thrown.expectCause(isA(InvalidAlgorithmParameterException.class));
         thrown.expectMessage("Wrong IV length: must be 16 bytes long");
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         String iv = "11111111";
 
         AESCipher cipher = new AESCipher(key, iv.getBytes("UTF-8"));
@@ -730,13 +742,13 @@ public class AESCipherTest {
     @Test
     public void encryptMessageFromKeystoreWithIv() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         AESCipher cipher = new AESCipher(key, iv);
 
         String encryptedMessage = cipher.getEncryptedMessage("this is message");
-        LOG.debug("Message is: {}", encryptedMessage);
+        log.debug("Message is: {}", encryptedMessage);
 
         assertThat(encryptedMessage, is(notNullValue()));
         assertThat(encryptedMessage, is(not("this is message")));
@@ -745,7 +757,7 @@ public class AESCipherTest {
     @Test
     public void decryptMessageFromKeystoreWithIv() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
         AESCipher cipher = new AESCipher(key, iv);
@@ -755,14 +767,14 @@ public class AESCipherTest {
         String encryptedMessage = cipher.getEncryptedMessage(messageToEncrypt);
         String decryptedMessage = cipher.getDecryptedMessage(encryptedMessage);
 
-        LOG.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
+        log.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
         assertThat(decryptedMessage, is(messageToEncrypt));
     }
 
     @Test
     public void encryptDecryptUsingDifferentCiphersSameIV() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         byte[] differentIV = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
@@ -774,14 +786,14 @@ public class AESCipherTest {
         String encryptedMessage = cipher.getEncryptedMessage(messageToEncrypt);
         String decryptedMessage = differentCipher.getDecryptedMessage(encryptedMessage);
 
-        LOG.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
+        log.debug("Original Message: {}, Encrypted Message: {}, Decrypted Message: {}", messageToEncrypt, encryptedMessage, decryptedMessage);
         assertThat(decryptedMessage, is(messageToEncrypt));
     }
 
     @Test
     public void encryptDecryptUsingDifferentCiphersDifferentIV() {
 
-        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
+        Key key = KeystoreUtil.getKeyFromKeyStore("src/test/resources/client-aes-keystore.jck", "mystorepass", "jceksaes", "mykeypass");
         byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
         byte[] differentIV = {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1};
 
@@ -793,7 +805,7 @@ public class AESCipherTest {
         String encryptedMessage = cipher.getEncryptedMessage(messageToEncrypt);
         String decryptedMessage = differentCipher.getDecryptedMessage(encryptedMessage);
 
-        LOG.debug("Encrypted: [{}], Decrypted[{}]", encryptedMessage, decryptedMessage);
+        log.debug("Encrypted: [{}], Decrypted[{}]", encryptedMessage, decryptedMessage);
 
         assertThat("Original message should have not been the same after decoding with a different IV", decryptedMessage, is(not(messageToEncrypt)));
     }

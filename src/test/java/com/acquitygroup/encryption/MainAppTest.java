@@ -26,12 +26,12 @@ public class MainAppTest {
 
     @Test
     public void decrypt() {
-        MainApp.main(createArguments("decrypt", "kFKgXtUKBWdZLgaSyx+RhS/ZbpiXxZqiHTcdRCruJu74fpZnapVbvugka/o9+2IE", initialIV));
+        MainApp.main(createArguments("decrypt", "gwJB/ke1X6kLQP8df3RjS7X7P2WbswqML+FcXqCsElPzMyo54oIj4Ef+glovFk3T", initialIV));
     }
 
     @Test
     public void decryptWithBadIV() {
-        MainApp.main(createArguments("decrypt", "kFKgXtUKBWdZLgaSyx+RhS/ZbpiXxZqiHTcdRCruJu74fpZnapVbvugka/o9+2IE", "1111111111111111"));
+        MainApp.main(createArguments("decrypt", "gwJB/ke1X6kLQP8df3RjS7X7P2WbswqML+FcXqCsElPzMyo54oIj4Ef+glovFk3T", "1111111111111111"));
     }
 
     private String[] createArguments(String... args) {
@@ -39,7 +39,7 @@ public class MainAppTest {
     }
 
     private void createSystemProperties() {
-        System.setProperty("keystore","src/test/resources/aes-keystore.jck");
+        System.setProperty("keystore","src/test/resources/client-aes-keystore.jck");
         System.setProperty("storepass","mystorepass");
         System.setProperty("alias","jceksaes");
         System.setProperty("keypass", "mykeypass");

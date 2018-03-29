@@ -32,15 +32,12 @@ package com.acquitygroup.encryption;
  * http://docs.oracle.com/javase/7/docs/technotes/guides/security/crypto/CryptoSpec.html#DH2Ex
  */
 
-import java.io.*;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.spec.*;
-import java.security.interfaces.*;
 import javax.crypto.*;
 import javax.crypto.spec.*;
 import javax.crypto.interfaces.*;
-import com.sun.crypto.provider.SunJCE;
 
 /**
  * This program executes the Diffie-Hellman key agreement protocol
@@ -66,9 +63,13 @@ public class DHKeyAgreement2 {
   //  private PublicKey bobPubKey;
   //  private PublicKey alicePubKey;
 
-    public DHKeyAgreement2() {}
+    public DHKeyAgreement2() {
 
-    public static void main(String argv[]) {
+        System.out.println("constructor was executed");
+
+    }
+
+    public static void commandLine(String argv[]) {
         try {
             String mode = "USE_SKIP_DH_PARAMS";
 
@@ -217,6 +218,8 @@ public class DHKeyAgreement2 {
         X509EncodedKeySpec x509KeySpec = new X509EncodedKeySpec(bobPubKeyEnc);
         PublicKey bobPubKey = aliceKeyFac.generatePublic(x509KeySpec);
        // this.bobPubKey = bobPubKey;
+
+        System.out.println("bobPubKey: " + bobPubKey.toString());
 
         System.out.println("ALICE: Execute PHASE1 ...");
         aliceKeyAgree.doPhase(bobPubKey, true);
