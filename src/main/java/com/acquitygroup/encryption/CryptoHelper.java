@@ -31,7 +31,9 @@ public class CryptoHelper {
         AESCipher cipher = new AESCipher(key.getBytes("UTF-8"));
         String encryptedMessage = cipher.getEncryptedMessage(message);
 
-        System.out.println("key:" + key);
+        System.out.println("key bits:" + key.getBytes("UTF-16BE").length * 8 );
+        byte[] byteArray = key.getBytes("UTF-16BE");
+        System.out.println("key: " + DHKeyAgreement2.toHexString(byteArray));
 
         LOG.debug("encrypt messagekey: " + key);
         LOG.debug("Message is: {}", encryptedMessage);

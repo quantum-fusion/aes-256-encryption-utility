@@ -82,7 +82,7 @@ public class ClientMainApp {
 
             byte[] alicesecretkey = keyAgree.generateAliceSecretKey(bobPublicKey);
 
-            System.out.println("alicekey length: " + alicesecretkey.length);
+            System.out.println("alicekey length in Bits: " + alicesecretkey.length * 8);
 
             String myMessage = "hello this is the test message";
 

@@ -229,7 +229,7 @@ public class DHKeyAgreement2 {
         int aliceLen = aliceSharedSecret.length;
 
         System.out.println("Alice secret: " +
-                toHex(aliceSharedSecret));
+                toHexString(aliceSharedSecret));
 
         return aliceSharedSecret;
 
