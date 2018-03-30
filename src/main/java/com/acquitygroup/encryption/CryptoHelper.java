@@ -31,6 +31,8 @@ public class CryptoHelper {
         AESCipher cipher = new AESCipher(key.getBytes("UTF-8"));
         String encryptedMessage = cipher.getEncryptedMessage(message);
 
+        System.out.println("key:" + key);
+
         LOG.debug("encrypt messagekey: " + key);
         LOG.debug("Message is: {}", encryptedMessage);
 

@@ -3,12 +3,11 @@ package com.acquitygroup.encryption;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import com.acquitygroup.encryption.*;
 
 /**
  * Created by hottelet on 3/29/18.
@@ -66,11 +65,15 @@ public class ClientMainApp {
             System.out.println(json);
 
             // REST POST to Server
-            restTemplate.postForEntity("http://127.0.0.1:8080/restaurant/postAlicePublicKey", entity, String.class);
+            ResponseEntity<String> response = restTemplate.postForEntity("http://127.0.0.1:8080/restaurant/postAlicePublicKey", entity, String.class);
+
+            HttpStatus status = response.getStatusCode();
+            String restCall = response.getBody();
+
+            System.out.println("REST POST returned bob's hex public key:" + restCall);
 
             byte[] bobPublicKey = restTemplate.getForObject("http://127.0.0.1:8080/restaurant/getBobPublicKey", byte[].class);
-
-            System.out.println(bobPublicKey);
+            System.out.println("REST GET returned bob's hex public key: "  + DHKeyAgreement2.toHexString(bobPublicKey));
 
             // REST GET from Server
 //            Quote quote = restTemplate.getForObject(
@@ -80,6 +83,25 @@ public class ClientMainApp {
             byte[] alicesecretkey = keyAgree.generateAliceSecretKey(bobPublicKey);
 
             System.out.println("alicekey length: " + alicesecretkey.length);
+
+            String myMessage = "hello this is the test message";
+
+            CryptoHelper c = new CryptoHelper();
+            String encryptedMessage = c.encryptMessage(DHKeyAgreement2.toHex(alicesecretkey).substring(0,32),myMessage); //ToDo Is this a 256 bit key ?
+
+            System.out.println("encrypted message: " + encryptedMessage + "\n");
+
+            String myHMAC = HMAC.calculateHMAC(myMessage,DHKeyAgreement2.toHex(alicesecretkey).substring(0,32), "HmacSHA256"); //ToDo Is this a 256 bit key ?
+
+            System.out.println("HMAC SHA256: " + myHMAC);
+
+            String decryptedMessage = c.decryptMessage(DHKeyAgreement2.toHex(alicesecretkey).substring(0,32), encryptedMessage);
+
+            System.out.println("decrypted message: " + decryptedMessage + "\n");
+
+            String myHMACdecrypted = HMAC.calculateHMAC(decryptedMessage,DHKeyAgreement2.toHex(alicesecretkey).substring(0,32), "HmacSHA256"); //ToDo Is this a 256 bit key ?
+
+            System.out.println("HMAC SHA256: " + myHMACdecrypted);
 
             //  keyAgree.compareSecrets(alicesecretkey, bobsecretkey);
             //  System.out.println("bobkey length: " + bobsecretkey.length);
