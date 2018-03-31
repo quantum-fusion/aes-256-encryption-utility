@@ -219,7 +219,7 @@ public class DHKeyAgreement2 {
         PublicKey bobPubKey = aliceKeyFac.generatePublic(x509KeySpec);
        // this.bobPubKey = bobPubKey;
 
-        System.out.println("bobPubKey: " + bobPubKey.toString());
+       // System.out.println("bobPubKey: " + bobPubKey.toString());
 
         System.out.println("ALICE: Execute PHASE1 ...");
         aliceKeyAgree.doPhase(bobPubKey, true);

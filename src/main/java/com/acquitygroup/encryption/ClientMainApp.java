@@ -89,6 +89,31 @@ public class ClientMainApp {
 
             System.out.println(json);
 
+
+
+            // POST Bob's public key to REST Server
+
+            PublicKeyEnc pBob = new PublicKeyEnc();
+            pBob.setPublicKeyEnc(alicepublickeyEnc);
+
+            HttpHeaders headersBob = new HttpHeaders();
+            headersBob.setContentType(MediaType.APPLICATION_JSON);
+
+// Jackson ObjectMapper to convert requestBody to JSON
+            String jsonBob = new ObjectMapper().writeValueAsString(p);
+            HttpEntity<String> entityBob = new HttpEntity<>(jsonBob, headers);
+
+            System.out.println(json);
+
+            // REST POST to Server
+            ResponseEntity<String> responseBob = restTemplate.postForEntity("http://127.0.0.1:8080/restaurant/postBobPublicKey", entity, String.class);
+
+            HttpStatus statusBob = responseBob.getStatusCode();
+            String restCallBob = responseBob.getBody();
+
+         // End Posting Bob's public key to REST Server
+
+
             // REST POST to Server
             ResponseEntity<String> response2 = restTemplate.postForEntity("http://127.0.0.1:8080/restaurant/postAlicePublicKey", entity, String.class);
 
@@ -111,7 +136,9 @@ public class ClientMainApp {
                 System.out.println("REST GET returned hex privateKey: " + DHKeyAgreement2.toHexString(privateKey));
             }
 
-            byte[] alicesecretkey2 = keyAgree.generateAliceSecretKey(bobPublicKey);
+            byte[] alicesecretkey2;
+
+            alicesecretkey2 = keyAgree.generateAliceSecretKey(bobPublicKey);
 
             System.out.println("alicekey length in Bits: " + alicesecretkey2.length * 8);
 
@@ -133,6 +160,25 @@ public class ClientMainApp {
             String myHMACdecrypted = HMAC.calculateHMAC(decryptedMessage,DHKeyAgreement2.toHex(alicesecretkey).substring(0,32), "HmacSHA256"); //ToDo Is this a 256 bit key ?
 
             System.out.println("HMAC SHA256: " + myHMACdecrypted);
+
+
+            for(int i=0; i< 10; i++) {
+
+                alicesecretkey2 = keyAgree.generateAliceSecretKey(bobPublicKey);
+            }
+
+
+            System.out.println("alicekey length in Bits: " + alicesecretkey2.length * 8);
+
+
+            for(int i=0; i< 10; i++) {
+
+                privateKey = restTemplate.getForObject("http://127.0.0.1:8080/restaurant/getPrivateKey", byte[].class);
+                System.out.println("REST GET returned hex privateKey: " + DHKeyAgreement2.toHexString(privateKey));
+            }
+
+            // Encrypt Data and then POST to REST Server
+
 
             //  keyAgree.compareSecrets(alicesecretkey, bobsecretkey);
             //  System.out.println("bobkey length: " + bobsecretkey.length);
