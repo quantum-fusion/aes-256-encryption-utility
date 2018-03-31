@@ -72,17 +72,48 @@ public class ClientMainApp {
 
             System.out.println("REST POST returned bob's hex public key:" + restCall);
 
-            byte[] bobPublicKey = restTemplate.getForObject("http://127.0.0.1:8080/restaurant/getBobPublicKey", byte[].class);
+            byte[] bobPublicKey;
+
+            bobPublicKey = restTemplate.getForObject("http://127.0.0.1:8080/restaurant/getBobPublicKey", byte[].class);
             System.out.println("REST GET returned bob's hex public key: "  + DHKeyAgreement2.toHexString(bobPublicKey));
+
+            byte[] privateKey;
+
+            for(int i=0; i< 10; i++) {
+
+                privateKey = restTemplate.getForObject("http://127.0.0.1:8080/restaurant/getPrivateKey", byte[].class);
+                System.out.println("REST GET returned hex privateKey: " + DHKeyAgreement2.toHexString(privateKey));
+            }
+
+            byte[] alicesecretkey = keyAgree.generateAliceSecretKey(bobPublicKey);
+
+            System.out.println(json);
+
+            // REST POST to Server
+            ResponseEntity<String> response2 = restTemplate.postForEntity("http://127.0.0.1:8080/restaurant/postAlicePublicKey", entity, String.class);
+
+            HttpStatus status2 = response2.getStatusCode();
+            String restCall2 = response2.getBody();
+
+            System.out.println("REST POST returned bob's hex public key:" + restCall2);
 
             // REST GET from Server
 //            Quote quote = restTemplate.getForObject(
 //                    "http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
 //            System.out.println(quote.toString());
 
-            byte[] alicesecretkey = keyAgree.generateAliceSecretKey(bobPublicKey);
+            bobPublicKey = restTemplate.getForObject("http://127.0.0.1:8080/restaurant/getBobPublicKey", byte[].class);
+            System.out.println("REST GET returned bob's hex public key: "  + DHKeyAgreement2.toHexString(bobPublicKey));
 
-            System.out.println("alicekey length in Bits: " + alicesecretkey.length * 8);
+            for(int i=0; i< 10; i++) {
+
+                privateKey = restTemplate.getForObject("http://127.0.0.1:8080/restaurant/getPrivateKey", byte[].class);
+                System.out.println("REST GET returned hex privateKey: " + DHKeyAgreement2.toHexString(privateKey));
+            }
+
+            byte[] alicesecretkey2 = keyAgree.generateAliceSecretKey(bobPublicKey);
+
+            System.out.println("alicekey length in Bits: " + alicesecretkey2.length * 8);
 
             String myMessage = "hello this is the test message";
 
