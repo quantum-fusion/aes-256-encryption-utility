@@ -1,5 +1,3 @@
-[Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
-
 # Overview:
 ===================
 This is a sample utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
@@ -8,11 +6,11 @@ This is a sample utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
 - https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
 
 <<<<<<< HEAD
-**NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
+# **NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
 =======
 # Android integration frameworks (See https://www.whatsapp.com/security/WhatsApp-Security-Whitepaper.pdf )
-## AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
-## Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
+# AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
+# Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
 >>>>>>> origin/master
 
 - Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8 Download
@@ -21,15 +19,12 @@ http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.ht
 
 Extract the jar files from the zip and save them in ${java.home}/jre/lib/security/.
 
-<a name="run"></a>To Run:
+# To Run
 ====================
 
     mvn clean test
 
-
-[Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
-
-<a name="howto"></a>To Use:
+# To Use
 ====================
 
     # Key stored in JCEKS formatted Java keystore
@@ -44,24 +39,15 @@ Extract the jar files from the zip and save them in ${java.home}/jre/lib/securit
     String encryptedMessage = cipherWithIv.getEncryptedMessage("this is message");
     String decryptedMessage = cipherWithIv.getDecryptedMessage(encryptedMessage);
 
-
-[Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
-
-<a name="generate"></a>Generate an AES-256 Key
+# Generate an AES-256 Key
 ======================
-
 keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -keypass mykeypass -storetype jceks -keystore aes-keystore.jck -storepass mystorepass
-
-
-
 
 # Android key generation example
 # https://developer.android.com/studio/publish/app-signing.html#signing-manually
 # keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
 
-[Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
-
-<a name="view"></a>View AES-256 Key from command line
+# View AES-256 Key from command line
 ======================
 
     mvn clean package // generate executable JAR file
@@ -70,10 +56,7 @@ keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -ke
     // or optionally with Maven (using the above defaults)
     mvn exec:java
 
-
-[Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
-
-<a name="use"></a>Encrypt/Decrypt AES-256 from command line
+# Encrypt / Decrypt AES-256 from command line
 ======================
 
     // Generate executable JAR with:  mvn package
