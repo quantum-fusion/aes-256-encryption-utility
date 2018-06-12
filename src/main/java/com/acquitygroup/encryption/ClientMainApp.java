@@ -10,7 +10,7 @@ import org.springframework.web.client.RestTemplate;
 import com.acquitygroup.encryption.*;
 
 /**
- * Created by hottelet on 3/29/18.
+ * Created by quantum-fusion on 3/29/18.
  */
 public class ClientMainApp {
 
