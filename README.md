@@ -39,33 +39,38 @@ Extract the jar files from the zip and save them in ${java.home}/jre/lib/securit
 
 # Generate an AES-256 Key
 ======================
-keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -keypass mykeypass -storetype jceks -keystore aes-keystore.jck -storepass mystorepass
+
+keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -keypass mykeypass -storetype jceks -keystore aes-
+
+keystore.jck -storepass mystorepass
 
 # Android key generation example
-# https://developer.android.com/studio/publish/app-signing.html#signing-manually
-# keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
+https://developer.android.com/studio/publish/app-signing.html#signing-manually
+
+keytool -genkey -v -keystore my-release-key.jks -keyalg RSA -keysize 2048 -validity 10000 -alias my-alias
 
 # View AES-256 Key from command line
 ======================
 
-    mvn clean package // generate executable JAR file
-    java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar <COMMAND like 'showKey'>
+mvn clean package // generate executable JAR file
+java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar <COMMAND like 'showKey'>
 
-    // or optionally with Maven (using the above defaults)
-    mvn exec:java
+// or optionally with Maven (using the above defaults)
+mvn exec:java
 
 # Encrypt / Decrypt AES-256 from command line
 ======================
 
-    // Generate executable JAR with:  mvn package
+// Generate executable JAR with:  mvn package
 
-    // Ideally the IV passed in (0000000000000000) would be randomly generated
-    java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar encrypt blahblahblah 0000000000000000
-    java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar decrypt baN3CIAcVgq+AQr7lvKmLw== 0000000000000000
+// Ideally the IV passed in (0000000000000000) would be randomly generated
+java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar encrypt blahblahblah 0000000000000000
 
+java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar decrypt baN3CIAcVgq+AQr7lvKmLw== 0000000000000000
 
-    java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar encrypt blahblahblah 0000000000000001
-    java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar decrypt Wcaov8LNN4GJvp1bvOTJ0g== 0000000000000001
+java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar encrypt blahblahblah 0000000000000001
+
+java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar decrypt Wcaov8LNN4GJvp1bvOTJ0g== 0000000000000001
 
 # Other references
 ===================
@@ -73,5 +78,4 @@ keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -ke
 ## AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
 ## Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
 
-
-Quantum-fusion Copyright 2018 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
+quantum-fusion Copyright 2018 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
