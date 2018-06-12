@@ -1,7 +1,7 @@
 package com.acquitygroup.encryption;
 
 /**
- * Created by hottelet on 3/30/18.
+ * Created by quantum-fusion on 3/30/18.
  */
 
 import javax.crypto.Mac;
