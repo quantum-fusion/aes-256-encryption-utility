@@ -1,11 +1,8 @@
 # Description
-===================
 This is a utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
-
 - Most common error_: "Invalid Key Size" error is most likely caused by not updating JCE strength policy, see above
 - https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
-
-# **NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
+**NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
 
 # Getting Started:
 %git clone https://github.com/quantum-fusion/aes-256-encryption-utility
