@@ -1,21 +1,19 @@
-# Overview:
+# Getting Started:
 ===================
-This is a sample utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
+This is a utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
+
+%git clone https://github.com/quantum-fusion/aes-256-encryption-utility
+
+%mvn clean install 
 
 - Most common error_: "Invalid Key Size" error is most likely caused by not updating JCE strength policy, see above
 - https://stackoverflow.com/questions/6481627/java-security-illegal-key-size-or-default-parameters
 
-<<<<<<< HEAD
 # **NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
-=======
-# Android integration frameworks (See https://www.whatsapp.com/security/WhatsApp-Security-Whitepaper.pdf )
-# AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
-# Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
->>>>>>> origin/master
 
-- Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8 Download
+## - Java Cryptography Extension (JCE) Unlimited Strength Jurisdiction Policy Files 8 Download
 http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html
-- JDK must have the unlimited strength policy for the JDK version
+## - JDK must have the unlimited strength policy for the JDK version
 
 Extract the jar files from the zip and save them in ${java.home}/jre/lib/security/.
 
@@ -69,6 +67,11 @@ keytool -genseckey -alias jceksaes -keyalg AES -keysize 256 -storetype JCEKS -ke
     java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar encrypt blahblahblah 0000000000000001
     java -Dkeystore=main-aes-keystore.jck -Dstorepass=mystorepass -Dalias=jceksaes -Dkeypass=mykeypass -jar target/example-encryption-util.jar decrypt Wcaov8LNN4GJvp1bvOTJ0g== 0000000000000001
 
-[Run](#run) | [How To Use](#howto) | [Generate AES-256 Key](#generate) | [View AES-256 Key](#view) | [Command Line Encrypt/Decrypt](#use)
+# Other references
+===================
+## Android integration frameworks (See https://www.whatsapp.com/security/WhatsApp-Security-Whitepaper.pdf )
+## AESCrypt Android (https://github.com/quantum-fusion/AESCrypt-Android)
+## Whisper Systems Android encrypt (https://github.com/quantum-fusion/libsignal-service-java)
 
-Copywrite &copy;2017 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
+
+Quantum-fusion Copyright 2018 - Use of this code and it's concepts are considered a Proof-of-concept and should not be used directly in any environment
