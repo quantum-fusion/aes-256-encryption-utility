@@ -5,9 +5,9 @@ This is a utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
 **NOTE:** This example is built using **JDK8**, ultimate strength JCE (JDK8) and [Maven 3.x](http://maven.apache.org "Maven Documentation")
 
 # Getting Started:
-%git clone https://github.com/quantum-fusion/aes-256-encryption-utility
+git clone https://github.com/quantum-fusion/aes-256-encryption-utility
 
-%mvn clean install 
+mvn clean install 
 
 # Installation
 ===================
@@ -20,7 +20,7 @@ Extract the jar files from the zip and save them in ${java.home}/jre/lib/securit
 # To Run
 ====================
 
-    mvn clean test
+mvn clean test
 
 # To Use
 ====================
