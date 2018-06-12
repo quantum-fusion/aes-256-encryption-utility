@@ -7,6 +7,8 @@ This is a utility to encrypt/decrypt using AES/CBC/PKCS5Padding algorithm
 # Getting Started:
 git clone https://github.com/quantum-fusion/aes-256-encryption-utility
 
+cd aes-256-encryption-utility
+
 mvn clean install 
 
 # Installation
