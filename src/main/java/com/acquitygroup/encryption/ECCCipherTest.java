@@ -45,14 +45,15 @@ public class ECCCipherTest {
 
         byte[] encrypted = cipher.sign(keyPair.getPrivate(), message);
 
+        // Expect True, using Public key from KeyPair from generateKeyPair()
+        System.out.println(cipher.verify(keyPair.getPublic(), encrypted, message));
+        // AssertTrue(cipher.verify(keyPair.getPublic(), encrypted, message)); //ToDo need to add Junit support
+
         // generated private key algorithmically
         byte[] encryptedmessage = cipher.sign(cipher.generatePrivateKey(encrypted), message);
         System.out.println(encryptedmessage); //ToDo bug why doesn't this encrypted message verify after signing?
+    //    System.out.println(cipher.verify(cipher.getPubKeyFromCurve(keyPair.getPublic().getEncoded(),"secp256r1"), encryptedmessage, message)); //ToDo bug java.lang.RuntimeException: Invalid point encoding 0x30
 
-        // Expect True, using Public key from KeyPair from generateKeyPair()
-        System.out.println(cipher.verify(keyPair.getPublic(), encrypted, message));
-
-        // AssertTrue(cipher.verify(keyPair.getPublic(), encrypted, message));
     }
 
 
