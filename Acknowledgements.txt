@@ -1,0 +1,4 @@
+
+https://crypto.stackexchange.com/questions/59164/are-ecdsa-keys-and-rsa-keys-interchangeable
+
+https://stackoverflow.com/questions/11339788/tutorial-of-ecdsa-algorithm-to-sign-a-string/50221506#50221506

@@ -111,7 +111,8 @@ public class ECDHKeyAgreement {
 
             // Alice sets up the exchange
             KeyPairGenerator aliceKeyGen = KeyPairGenerator.getInstance("ECDH", "BC");
-            aliceKeyGen.initialize(new ECGenParameterSpec("prime256v1"), new SecureRandom());
+           // aliceKeyGen.initialize(new ECGenParameterSpec("prime256v1"), new SecureRandom());
+            aliceKeyGen.initialize(new ECGenParameterSpec("secp521r1"), new SecureRandom());
 
             KeyPair alicePair = aliceKeyGen.generateKeyPair();
             ECPublicKey alicePub = (ECPublicKey) alicePair.getPublic();
@@ -132,7 +133,8 @@ public class ECDHKeyAgreement {
             PublicKey remoteAlicePub = kf.generatePublic(new X509EncodedKeySpec(alicePubEncoded));
 
             KeyPairGenerator bobKeyGen = KeyPairGenerator.getInstance("ECDH", "BC");
-            bobKeyGen.initialize(new ECGenParameterSpec("prime256v1"), new SecureRandom());
+      //      bobKeyGen.initialize(new ECGenParameterSpec("prime256v1"), new SecureRandom());
+            bobKeyGen.initialize(new ECGenParameterSpec("secp521r1"), new SecureRandom());
 
             KeyPair bobPair = bobKeyGen.generateKeyPair();
             ECPublicKey bobPub = (ECPublicKey) bobPair.getPublic();
