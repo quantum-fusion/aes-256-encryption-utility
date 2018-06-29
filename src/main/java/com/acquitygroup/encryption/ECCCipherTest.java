@@ -35,4 +35,25 @@ public class ECCCipherTest {
 
         // AssertTrue(cipher.verify(keyPair.getPublic(), encrypted, message));
     }
+
+    @Test
+    public void ECC_CipherTest_2() throws Exception {
+        String message = "hello world";
+
+        ECCCipher cipher = new ECCCipher();
+        KeyPair keyPair = keygen.generateKeyPair();
+
+        byte[] encrypted = cipher.sign(keyPair.getPrivate(), message);
+
+        // generated private key algorithmically
+        byte[] encryptedmessage = cipher.sign(cipher.generatePrivateKey(encrypted), message);
+        System.out.println(encryptedmessage); //ToDo bug why doesn't this encrypted message verify after signing?
+
+        // Expect True, using Public key from KeyPair from generateKeyPair()
+        System.out.println(cipher.verify(keyPair.getPublic(), encrypted, message));
+
+        // AssertTrue(cipher.verify(keyPair.getPublic(), encrypted, message));
+    }
+
+
 }

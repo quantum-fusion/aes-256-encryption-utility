@@ -37,18 +37,27 @@ public class ECCCipher {
 
 
     public PrivateKey generatePrivateKey(byte[] keyBin) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp256k1");
+        // ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp256k1");
+         ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp521r1");
+
         KeyFactory kf = KeyFactory.getInstance("ECDSA", new BouncyCastleProvider());
-        ECNamedCurveSpec params = new ECNamedCurveSpec("secp256k1", spec.getCurve(), spec.getG(), spec.getN());
+
+        // ECNamedCurveSpec params = new ECNamedCurveSpec("secp256k1", spec.getCurve(), spec.getG(), spec.getN());
+         ECNamedCurveSpec params = new ECNamedCurveSpec("secp521r1", spec.getCurve(), spec.getG(), spec.getN());
+
         ECPrivateKeySpec privKeySpec = new ECPrivateKeySpec(new BigInteger(keyBin), params);
         return kf.generatePrivate(privKeySpec);
     }
 
 
     public PublicKey generatePublicKey(byte[] keyBin) throws InvalidKeySpecException, NoSuchAlgorithmException {
-        ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp256k1");
+       //ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp256k1");
+       ECNamedCurveParameterSpec spec = ECNamedCurveTable.getParameterSpec("secp521r1");
+
         KeyFactory kf = KeyFactory.getInstance("ECDSA", new BouncyCastleProvider());
-        ECNamedCurveSpec params = new ECNamedCurveSpec("secp256k1", spec.getCurve(), spec.getG(), spec.getN());
+      //  ECNamedCurveSpec params = new ECNamedCurveSpec("secp256k1", spec.getCurve(), spec.getG(), spec.getN());
+          ECNamedCurveSpec params = new ECNamedCurveSpec("secp521r1", spec.getCurve(), spec.getG(), spec.getN());
+
         ECPoint point =  ECPointUtil.decodePoint(params.getCurve(), keyBin);
         ECPublicKeySpec pubKeySpec = new ECPublicKeySpec(point, params);
         return kf.generatePublic(pubKeySpec);

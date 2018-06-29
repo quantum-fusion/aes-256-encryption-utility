@@ -24,6 +24,16 @@ public class ClientMainApp {
         System.setProperty("keypass", "mykeypass");
     }
 
+    public static void ECDH() {
+
+        //
+
+
+
+    }
+
+
+
     public static void DiffieHellman() {
 
         try {

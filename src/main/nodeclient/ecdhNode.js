@@ -1,6 +1,7 @@
 
 // ECDH Diffie Hellman ECC negotiation exchange
 // https://nodejs.org/api/crypto.html
+// ECDH initiates Alice's public key
 
 var function ECDH() {
 
@@ -20,6 +21,8 @@ const aliceSecret = alice.computeSecret(bobKey);
 const bobSecret = bob.computeSecret(aliceKey);
 
 assert.strictEqual(aliceSecret.toString('hex'), bobSecret.toString('hex'));
+
+return aliceKey; // return Alice's public key
 // OK
 
 }
